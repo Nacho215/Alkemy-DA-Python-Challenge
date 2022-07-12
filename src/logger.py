@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 #Methods
 def log(level_name, msg, exc_info=""):
-    """Log a message with an given level.
+    """
+    Log a message with an given level.
 
     Args:
         level_name (str): A string representing a log level: 'INFO', 'ERROR' or 'DEBUG'

@@ -19,7 +19,8 @@ db = None
 
 #Methods
 def get_database():
-    """ Connects to database.
+    """
+    Connects to database.
 
     Returns:
         engine (Engine): Database engine or None if failed to connect.
@@ -81,7 +82,8 @@ def get_engine(user, passwd, host, port, db):
     return engine
 
 def get_dtypes_dict(df):
-    """Given a dataframe, generate a dictionary used to map the columns to
+    """
+    Given a dataframe, generate a dictionary used to map the columns to
     its correct SQL types.
 
     Args:
@@ -115,7 +117,8 @@ def get_dtypes_dict(df):
     return dtypes_dict
 
 def execute_from_sql(sql_file):
-    """ Try to execute a .sql file on 'db' database.
+    """
+    Try to execute a .sql file on 'db' database.
 
     Args:
         sql_file (str): Path to .sql file.

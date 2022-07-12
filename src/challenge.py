@@ -53,7 +53,8 @@ processed_data = {}
 
 #Methods
 def save_csv_from_url(url, file_path):
-    """ Get a csv file from a given url and saves it to a local path
+    """
+    Get a csv file from a given url and saves it to a local path
 
     Args:
         url (string): Url from where the csv file can be downloaded
@@ -76,7 +77,8 @@ def save_csv_from_url(url, file_path):
             writer.writerows(csv.reader(lines))
 
 def get_month_name(month_number):
-    """ Given a month number, return the month name in spanish
+    """
+    Given a month number, return the month name in spanish
 
     Args:
         month_number (int): Month number, from 1 to 12
@@ -100,7 +102,8 @@ def get_month_name(month_number):
     return month_dict[month_number]
 
 def get_source_files(sources):
-    """Try to make requests to urls from sources dictionary, download those files, and save it
+    """
+    Try to make requests to urls from sources dictionary, download those files, and save it
     locally following a structure.
 
     Args:
@@ -134,7 +137,8 @@ def get_source_files(sources):
     return True
 
 def process_data():
-    """Look for files in directories following a structure, processing the data from those files,
+    """
+    Look for files in directories following a structure, processing the data from those files,
     normalizing them and making it dataframes ready to be transformed into SQL tables.
 
     Returns:
@@ -248,7 +252,8 @@ def process_data():
     return data
 
 def set_up_database(data):
-    """Ask the psql module for a database engine. If get it, it will create a "tables.sql" file 
+    """
+    Ask the psql module for a database engine. If get it, it will create a "tables.sql" file 
     (in the current directory) and then ask the psql module to execute that file.
     This will create the tables in the database from the 'data' argument dataframes.
 
@@ -278,7 +283,8 @@ def set_up_database(data):
     return db
 
 def save_sql_tables(file_path, data):
-    """Save a .sql file in a given path, that generates SQL tables from 'data' argument.
+    """
+    Save a .sql file in a given path, that generates SQL tables from 'data' argument.
 
     Args:
         file_path (str): Path to save the .sql file
@@ -347,7 +353,8 @@ def save_sql_tables(file_path, data):
     logger.log('INFO', f'SQL script for tables creation saved on: "{file_path}"')
     
 def update_database(db, data):
-    """Try to connect to a given database. If it can, look for tables named as 'data' argument keys,
+    """
+    Try to connect to a given database. If it can, look for tables named as 'data' argument keys,
     and replace all its values with the ones in its corresponding DataFrames ('data' argument values).
     Note that this method does not alter the tables structure, only its values.
 
@@ -371,21 +378,26 @@ def update_database(db, data):
             #Log the exception
             logger.log('ERROR', f'Can\'t update table "{df_name}" in database.', e._message)
 
+def main():
+    """
+    Main function
+    """
+    #Logging message
+    logger.log('INFO', '--- STARTING PROGRAM ---')
 
-#--MAIN--
+    #If can get the data
+    if get_source_files(sources):
+        #Process the data
+        processed_data = process_data()
+    #Database set up and table creation
+    db = set_up_database(processed_data)
+    #Update database
+    if db:
+        update_database(db, processed_data)
 
-#Logging message
-logger.log('INFO', '--- STARTING PROGRAM ---')
+    #Logging message
+    logger.log('INFO', '---- ENDING PROGRAM ----')
 
-#If can get the data
-if get_source_files(sources):
-    #Process the data
-    processed_data = process_data()
-#Database set up and table creation
-db = set_up_database(processed_data)
-#Update database
-if db:
-    update_database(db, processed_data)
-
-#Logging message
-logger.log('INFO', '---- ENDING PROGRAM ----')
+#This is called when challenge.py is run directly
+if __name__ == "__main__":
+    main()
