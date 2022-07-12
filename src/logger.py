@@ -9,24 +9,37 @@ import logging
 #Settings module
 import settings
 
-#Set up logging to save logs into default_log_path
-logging.basicConfig(
-    filename=settings.default_log_path, 
-    level=logging.INFO, encoding='utf_8',
-    format='%(asctime)s (%(levelname)s): %(message)s',
-    datefmt='%m/%d/%Y %H:%M:%S'
-)
 #Save the logger
 logger = logging.getLogger(__name__)
 
 #Methods
+def setup(filename=settings.default_log_path, level=logging.INFO, encoding='utf_8', format='%(asctime)s (%(levelname)s): %(message)s', datefmt='%m/%d/%Y %H:%M:%S'):
+    """
+    Do a basic config for the logger.
+
+    Args:
+        filename (str, optional): Path file to save logs. Defaults to settings.default_log_path.
+        level (int, optional): Logging level code. Defaults to logging.INFO.
+        encoding (str, optional): Encoding. Defaults to 'utf_8'.
+        format (str, optional): Message format. Defaults to '%(asctime)s (%(levelname)s): %(message)s'.
+        datefmt (str, optional): Date format. Defaults to '%m/%d/%Y %H:%M:%S'.
+    """
+    #Do a basic config with given paremeters 
+    logging.basicConfig(
+        filename=filename, 
+        level=level,
+        encoding=encoding,
+        format=format,
+        datefmt=datefmt
+    )
+
 def log(level_name, msg, exc_info=""):
     """
     Log a message with an given level.
 
     Args:
-        level_name (str): A string representing a log level: 'INFO', 'ERROR' or 'DEBUG'
-        msg (str): Message to log
+        level_name (str): A string representing a log level: 'INFO', 'ERROR' or 'DEBUG'.
+        msg (str): Message to log.
         exc_info (str, optional): Exception message, only if level_name = 'ERROR'. Defaults to "".
     """
     #Get the level

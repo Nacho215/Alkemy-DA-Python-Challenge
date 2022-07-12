@@ -52,6 +52,35 @@ sources = {
 processed_data = {}
 
 #Methods
+
+def validate_file_paths(path_list):
+    """
+    Try to validate given file_paths, making directories if needed.
+
+    Args:
+        path_list (list): A list of file paths.
+
+    Returns:
+        bool: True if all file paths are valid. False otherwise.
+    """
+    #Catch exceptions
+    try:
+        #Iterate through the file paths
+        for file_path in path_list:
+            #Complete the file path
+            file_path = cwd + '\\' + file_path
+            #Get the actual directory path
+            dir_path = file_path
+            if '.' in file_path:
+                dir_path = file_path.split('\\')[0:-1]
+                dir_path = ('\\').join(dir_path)
+            #Make the dir if not exists
+            Path(dir_path).mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        logger.log("ERROR", "Failed to make directory.", str(e))
+        return False
+    return True
+
 def save_csv_from_url(url, file_path):
     """
     Get a csv file from a given url and saves it to a local path
@@ -382,6 +411,18 @@ def main():
     """
     Main function
     """
+    
+    #If can't validate the file paths from the .env file
+    if not validate_file_paths([
+        settings.default_data_path,
+        settings.default_log_path,
+        settings.default_sql_path]):
+        #Exit the program
+        quit()
+    
+    #Setup the logger
+    logger.setup()
+
     #Logging message
     logger.log('INFO', '--- STARTING PROGRAM ---')
 

@@ -7134,3 +7134,6 @@ venv/Scripts/python.exe
 venv/Scripts/pythonw.exe
 tables.sql
 db.log
+data/bibliotecas/2022-julio/bibliotecas-12-7-2022.csv
+data/museos/2022-julio/museos-12-7-2022.csv
+data/salas_cine/2022-julio/salas_cine-12-7-2022.csv
