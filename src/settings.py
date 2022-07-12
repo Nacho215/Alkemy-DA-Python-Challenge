@@ -2,7 +2,7 @@
     This module manages the project settings.
     It reads the settings from the .env file at root folder.
 """
-
+#Imports
 from decouple import config
 
 #Database

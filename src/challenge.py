@@ -52,10 +52,9 @@ sources = {
 processed_data = {}
 
 #Methods
-
 def validate_file_paths(path_list):
     """
-    Try to validate given file_paths, making directories if needed.
+    Try to validate given file paths, making directories if needed.
 
     Args:
         path_list (list): A list of file paths.
@@ -77,7 +76,7 @@ def validate_file_paths(path_list):
             #Make the dir if not exists
             Path(dir_path).mkdir(parents=True, exist_ok=True)
     except Exception as e:
-        logger.log("ERROR", "Failed to make directory.", str(e))
+        logger.log("ERROR", "Failed to make directory. Exception info:", str(e))
         return False
     return True
 
@@ -282,8 +281,8 @@ def process_data():
 
 def set_up_database(data):
     """
-    Ask the psql module for a database engine. If get it, it will create a "tables.sql" file 
-    (in the current directory) and then ask the psql module to execute that file.
+    Ask the psql module for a database engine. If get it, it will create a .sql file
+    (path specified in .env file) and then ask the psql module to execute that file.
     This will create the tables in the database from the 'data' argument dataframes.
 
     Args:
@@ -418,6 +417,7 @@ def main():
         settings.default_log_path,
         settings.default_sql_path]):
         #Exit the program
+        print("Please check your path files on .env file. Quitting program...")
         quit()
     
     #Setup the logger
